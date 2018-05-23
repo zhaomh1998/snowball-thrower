@@ -1,36 +1,35 @@
-## snowball thrower
+# Automated buying item and consume for trust grinding in Xenoblade Chronicles 2 on Arduino
 
-Automatically throws snowballs in The Legend of Zelda: Breath of the Wild by emulating a controller on a Teensy++ v2.0
+### How to use
+Upload the compiled joystick.bin into Arduino using flip, then plug in your Arduino to Nintendo Switch Type-C port through a Type-C to USB converter or plug into USB port on Nintendo Switch dock. In game, walk close enough to a store so that pressing "A" opens the store. Arduino will act as a automated joystick that buys max amount of the first item in the store, and consume that pouch item 20 times on the first character, then repeat.
 
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/udo8mv5oarg/0.jpg)](https://www.youtube.com/watch?v=udo8mv5oarg)
+### Uploading code to Arduino
+Download and install FLIP https://www.microchip.com/developmenttools/productdetails.aspx?partno=flip, connect Arduino to computer, and install the USB driver from (flip installation folder)\usb.
+Put Arduino in DFU mode, choose correct target device (ATmega16U2 for Arduino Uno and Mega), press ctrl+U and click "open" to connect to Arduino. Ctrl+L to load HEX file "joystick.bin". Check all four options on the left: Erase, Blank Check, Program and Verify, then hit "Run" to upload the code onto Arduino. When you see green circles, the uploading is done.
 
-A full writeup is [here](https://medium.com/@bertrandom/automating-zelda-3b37127e24c8).
+### Editing the code and compiling
+If you only want to modify script logic flow, the only file you want to look at is joystick.c The scripe logic is in step[].
+Follow http://www.fourwalledcubicle.com/files/LUFA/Doc/151115/html/_page__compiling_apps.html to setup environment for building.
+Download LUFA http://www.fourwalledcubicle.com/LUFA.php
+Remember to change LUFA_PATH to where you downloaded LUFA in MAKEFILE
 
-#### How to use
 
-Walk up to Pondo until the **(A) Talk** option is available and plug in the controller. It will automatically sync with the console, initiate the bowling game with Pondo, throw a perfect strike, and end the bowling game. It will play the bowling game in a loop.
+## Switch-Fightstick
+Proof-of-Concept Fightstick for the Nintendo Switch. Uses the LUFA library and reverse-engineering of the Pokken Tournament Pro Pad for the Wii U to enable custom fightsticks on the Switch System v3.0.0.
 
-Note that due to certain weather conditions, Link will sometimes fail to throw a strike, causing the game to enter into a mode where Link has to throw again. Thanks to a [change by exsilium](https://github.com/bertrandom/snowball-thrower/pull/1), the loop will recover from this, given enough time. I've tested this running for over 24 hours.
+### Wait, what?
+On June 20, 2017, Nintendo released System Update v3.0.0 for the Nintendo Switch. Along with a number of additional features that were advertised or noted in the changelog, additional hidden features were added. One of those features allows for the use of compatible controllers, such as the Pokken Tournament Pro Pad, to be used on the Nintendo Switch.
 
-In case you see issues with controller conflicts while in docked mode, try using a USB-C to USB-A adapter in handheld mode. In dock mode, changes in the HDMI connection will briefly make the Switch not respond to incoming USB commands, skipping parts of the sequence. These changes may include turning off the TV, or switching the HDMI input. (Switching to the internal tuner will be OK, if this doesn't trigger a change in the HDMI input.)
+Unlike the Wii U, which handles these controllers on a 'per-game' basis, the Switch treats the Pokken controller as if it was a Switch Pro Controller. Along with having the icon for the Pro Controller, it functions just like it in terms of using it in other games, apart from the lack of physical controls such as analog sticks, the buttons for the stick clicks, or other system buttons such as Home or Capture.
 
-This repository has been tested using a Teensy 2.0++.
+### But games like ARMS use the analog sticks!
+The Pokken Tournament Pro Pad was made by HORI, who also makes controllers for other consoles; because of this, the descriptors provided to Nintendo for the Pokken controller are **very** similar to that of some third-party PS3 controllers. In fact, the Pokken Tournament Pro Pad -can- be used on the PS3 without anything special needing to be done. The original descriptors feature 13 buttons, two analog sticks, a HAT switch, and some vendor-specific items that we can safely ignore. Compare this to a PS3 controller, which has...13 buttons (4 Face, 4 Shoulders, 2 Sticks, Select/Start, and PS), two analog sticks, and a HAT switch (the D-Pad). 
 
-#### Compiling and Flashing onto the Teensy 2.0++
-Go to the Teensy website and download/install the [Teensy Loader application](https://www.pjrc.com/teensy/loader.html). For Linux, follow their instructions for installing the [GCC Compiler and Tools](https://www.pjrc.com/teensy/gcc.html). For Windows, you will need the [latest AVR toolchain](http://www.atmel.com/tools/atmelavrtoolchainforwindows.aspx) from the Atmel site. See [this issue](https://github.com/LightningStalker/Splatmeme-Printer/issues/10) and [this thread](http://gbatemp.net/threads/how-to-use-shinyquagsires-splatoon-2-post-printer.479497/) on GBAtemp for more information. (Note for Mac users - the AVR MacPack is now called AVR CrossPack. If that does not work, you can try installing `avr-gcc` with `brew`.)
+### What do you mean by 'original descriptors?'
+Turns out we can modify the descriptors to expose up to 16 buttons at **least**. The Switch Pro Controller has 14 buttons on it, and as it turns out, the modified set of descriptors does allow us to enable the use of the most important button:
 
-LUFA has been included as a git submodule, so cloning the repo like this:
+### Is it the Captu-
 
-```
-git clone --recursive git@github.com:bertrandom/snowball-thrower.git
-```
+# THE CAPTURE BUTTON
 
-will put LUFA in the right directory.
-
-Now you should be ready to rock. Open a terminal window in the `snowball-thrower` directory, type `make`, and hit enter to compile. If all goes well, the printout in the terminal will let you know it finished the build! Follow the directions on flashing `Joystick.hex` onto your Teensy, which can be found page where you downloaded the Teensy Loader application.
-
-#### Thanks
-
-Thanks to Shiny Quagsire for his [Splatoon post printer](https://github.com/shinyquagsire23/Switch-Fightstick) and progmem for his [original discovery](https://github.com/progmem/Switch-Fightstick).
-
-Thanks to [exsilium](https://github.com/bertrandom/snowball-thrower/pull/1) for improving the command structure, optimizing the waiting times, and handling the failure scenarios. It can now run indefinitely!
+The Switch Pro Controller also exposes **additional** buttons within its descriptors; however, it's unknown as to what those do at this time. These come immediately after the HAT, so I'm under the assumption that they may be individual button presses instead of an angle. That being said, considering how flexible the Switch is with the Pokken controller descriptors, we may be able to mirror the Switch Pro Controller descriptors up to a certain point.

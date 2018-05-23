@@ -33,7 +33,10 @@ typedef enum {
 	R,
 	THROW,
 	NOTHING,
-	TRIGGERS
+	TRIGGERS,
+	PLUS,
+	REPEATSTART,
+	REPEATEND
 } Buttons_t;
 
 typedef struct {
@@ -42,7 +45,7 @@ typedef struct {
 } command; 
 
 static const command step[] = {
-	// Setup controller
+	//DO NOT EDIT vvvv		Setup controller
 	{ NOTHING,  250 },
 	{ TRIGGERS,   5 },
 	{ NOTHING,  150 },
@@ -50,140 +53,35 @@ static const command step[] = {
 	{ NOTHING,  150 },
 	{ A,          5 },
 	{ NOTHING,  250 },
+	//DO NOT EDIT ^^^^		 End of Setup Controller
 
-	// Talk to Pondo
-	{ A,          5 }, // Start
-	{ NOTHING,   30 },
-	{ B,          5 }, // Quick output of text
-	{ NOTHING,   20 }, // Halloo, kiddums!
-	{ A,          5 }, // <- I'll try it!
-	{ NOTHING,   15 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ A,          5 }, // <- OK!
-	{ NOTHING,   15 },
-	{ B,          5 },
-	{ NOTHING,   20 }, // Aha! Play bells are ringing! I gotta set up the pins, but I'll be back in a flurry
-	{ A,          5 }, // <Continue>
-	{ NOTHING,  325 }, // Cut to different scene (Knock 'em flat!)
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ A,          5 }, // <Continue> // Camera transition takes place after this
-	{ NOTHING,   50 },
-	{ B,          5 },
-	{ NOTHING,   20 }, // If you can knock over all 10 pins in one roll, that's a strike
-	{ A,          5 }, // <Continue>
-	{ NOTHING,   15 },
-	{ B,          5 },
-	{ NOTHING,   20 }, // A spare is...
-	{ A,          5 }, // <Continue>
-	{ NOTHING,  100 }, // Well, good luck
-	{ A,          5 }, // <Continue>
-	{ NOTHING,  150 }, // Pondo walks away
-
-	// Pick up Snowball (Or alternatively, run to bail in case of a non-strike)
-	{ A,          5 },
-	{ NOTHING,   50 },
-	{ LEFT,      42 },
-	{ UP,        80 },
-	{ THROW,     25 },
-
-	// Non-strike alternative flow, cancel bail and rethrow
-	{ NOTHING,   30 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 }, // I have to split dialogue (It's nothing)
-	{ NOTHING,   15 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,  450 },
-	{ B,          5 }, // Snowly moly... there are rules!
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 }, // Second dialogue
-	{ NOTHING,   20 },
-	{ DOWN,      10 }, // Return to snowball
-	{ NOTHING,   20 },
-	{ A,          5 }, // Pick up snowball, we just aimlessly throw it
-	{ NOTHING,   50 },
-	{ UP,        10 },
-	{ THROW,     25 },
-
-	// Back at main flow
-	{ NOTHING,  175 }, // Ater throw wait
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 }, // To the rewards
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
+	// Script loops from this line
+	// Open shop and buy first item
+	{A, 5},		{NOTHING, 50},
+	{A, 5},		{NOTHING, 50},
+	{A, 5},		{NOTHING, 50},
+	{A, 5},		{NOTHING, 50},		// Select first item
+	{LEFT, 5},	{NOTHING, 50},		// Max amount
+	{A, 5},		{NOTHING, 50},		// Purchase first item
+	{B, 5},		{NOTHING, 50},
+	{B, 5},		{NOTHING, 150}, 	// Returned
+	{PLUS, 5},	{NOTHING, 150}, 	// Open menu
+	{A, 5},		{NOTHING, 50},
+	{A, 5},		{NOTHING, 30},		// Select First character
 	
-	{ B,          5 }, // Wait for 450 cycles by bashing B (Like real players do!)
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 } // Saving, intermission
+	// Select and enter bag
+	{LEFT, 5},	{NOTHING, 20},
+	{A, 5},		{NOTHING, 15},
+
+	// Consume item 20 times
+	{REPEATSTART, 20},
+	{A, 5},{NOTHING, 15},{A, 5},{NOTHING, 15},{A, 5},{NOTHING, 10},{A, 5},{NOTHING, 10},{A, 5},{NOTHING, 80}, // Consume an item
+	{REPEATEND, 0},
+
+	// Return
+	{PLUS, 5},	{NOTHING, 150}
+	
+
 };
 
 // Main entry point.
@@ -316,6 +214,10 @@ int ypos = 0;
 int bufindex = 0;
 int duration_count = 0;
 int portsval = 0;
+int repeat_beginning_index = 0;
+int repeat_times = 0;
+int repeat_count = 0;
+bool noDurationFlag = 0; // Used to flag lines without duration. (REPEATSTART / REPEATEND)
 
 // Prepare the next report for the host.
 void GetNextReport(USB_JoystickReport_Input_t* const ReportData) {
@@ -343,32 +245,6 @@ void GetNextReport(USB_JoystickReport_Input_t* const ReportData) {
 		case SYNC_CONTROLLER:
 			state = BREATHE;
 			break;
-
-		// case SYNC_CONTROLLER:
-		// 	if (report_count > 550)
-		// 	{
-		// 		report_count = 0;
-		// 		state = SYNC_POSITION;
-		// 	}
-		// 	else if (report_count == 250 || report_count == 300 || report_count == 325)
-		// 	{
-		// 		ReportData->Button |= SWITCH_L | SWITCH_R;
-		// 	}
-		// 	else if (report_count == 350 || report_count == 375 || report_count == 400)
-		// 	{
-		// 		ReportData->Button |= SWITCH_A;
-		// 	}
-		// 	else
-		// 	{
-		// 		ReportData->Button = 0;
-		// 		ReportData->LX = STICK_CENTER;
-		// 		ReportData->LY = STICK_CENTER;
-		// 		ReportData->RX = STICK_CENTER;
-		// 		ReportData->RY = STICK_CENTER;
-		// 		ReportData->HAT = HAT_CENTER;
-		// 	}
-		// 	report_count++;
-		// 	break;
 
 		case SYNC_POSITION:
 			bufindex = 0;
@@ -431,6 +307,26 @@ void GetNextReport(USB_JoystickReport_Input_t* const ReportData) {
 					ReportData->Button |= SWITCH_L | SWITCH_R;
 					break;
 
+				case PLUS:
+					ReportData->Button |= SWITCH_PLUS;
+					break;
+				
+				case REPEATSTART:
+					repeat_beginning_index = bufindex;
+					repeat_times = step[bufindex].duration;
+					repeat_count = 1;
+					noDurationFlag = 1;
+					break;
+				case REPEATEND:
+					if(repeat_count >= repeat_times) {	// End of repeat process
+						noDurationFlag = 1;
+					}
+					else {
+						bufindex = repeat_beginning_index;	// If still in repeat process, reset bufindex to the line "REPEATSTART". Will get increment by 1 into the first line of process later in this loop
+						repeat_count++;
+						noDurationFlag = 1;
+					}
+					break;
 				default:
 					ReportData->LX = STICK_CENTER;
 					ReportData->LY = STICK_CENTER;
@@ -439,21 +335,23 @@ void GetNextReport(USB_JoystickReport_Input_t* const ReportData) {
 					ReportData->HAT = HAT_CENTER;
 					break;
 			}
-
-			duration_count++;
-
-			if (duration_count > step[bufindex].duration)
-			{
+			if (noDurationFlag) {
+				noDurationFlag = 0;
 				bufindex++;
-				duration_count = 0;				
 			}
+			else {
+				duration_count++;
 
+				if (duration_count > step[bufindex].duration)
+				{
+					bufindex++;
+					duration_count = 0;				
+				}
+			}
 
 			if (bufindex > (int)( sizeof(step) / sizeof(step[0])) - 1)
 			{
-
-				// state = CLEANUP;
-
+				// End of exec
 				bufindex = 7;
 				duration_count = 0;
 
@@ -464,11 +362,6 @@ void GetNextReport(USB_JoystickReport_Input_t* const ReportData) {
 				ReportData->RX = STICK_CENTER;
 				ReportData->RY = STICK_CENTER;
 				ReportData->HAT = HAT_CENTER;
-
-
-				// state = DONE;
-//				state = BREATHE;
-
 			}
 
 			break;
@@ -487,10 +380,6 @@ void GetNextReport(USB_JoystickReport_Input_t* const ReportData) {
 			return;
 	}
 
-	// // Inking
-	// if (state != SYNC_CONTROLLER && state != SYNC_POSITION)
-	// 	if (pgm_read_byte(&(image_data[(xpos / 8) + (ypos * 40)])) & 1 << (xpos % 8))
-	// 		ReportData->Button |= SWITCH_A;
 
 	// Prepare to echo this report
 	memcpy(&last_report, ReportData, sizeof(USB_JoystickReport_Input_t));
