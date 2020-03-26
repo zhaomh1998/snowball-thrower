@@ -1,17 +1,28 @@
 # Automated buying item and consume for trust grinding in Xenoblade Chronicles 2 on Arduino
 
 ### How to use
-Upload the compiled joystick.bin into Arduino using flip, then plug in your Arduino to Nintendo Switch Type-C port through a Type-C to USB converter or plug into USB port on Nintendo Switch dock. In game, walk close enough to a store so that pressing "A" opens the store. Arduino will act as a automated joystick that buys max amount of the first item in the store, and consume that pouch item 20 times on the first character, then repeat.
+Upload the compiled joystick.bin into Arduino from it's DFU mode, then plug in your Arduino to Nintendo Switch Type-C port through a Type-C to USB converter or plug into USB port on Nintendo Switch dock. In game, walk close enough to a store so that pressing "A" opens the store. Arduino will act as a automated joystick that buys max amount of the first item in the store, and consume that pouch item 20 times on the first character, then repeat.
 
 ### Uploading code to Arduino
+#### Windows
 Download and install FLIP https://www.microchip.com/developmenttools/productdetails.aspx?partno=flip, connect Arduino to computer, and install the USB driver from (flip installation folder)\usb.
 Put Arduino in DFU mode, choose correct target device (ATmega16U2 for Arduino Uno and Mega), press ctrl+U and click "open" to connect to Arduino. Ctrl+L to load HEX file "joystick.bin". Check all four options on the left: Erase, Blank Check, Program and Verify, then hit "Run" to upload the code onto Arduino. When you see green circles, the uploading is done.
+#### MacOSX
+Check https://www.arduino.cc/en/Hacking/DFUProgramming8U2 under section `Download a DFU Programmer` for setting up the dfu-programmer.
+Put Arduino in DFU mode as shown in the same link, and 
 
 ### Editing the code and compiling
 If you only want to modify script logic flow, the only file you want to look at is joystick.c The scripe logic is in step[].
-Follow http://www.fourwalledcubicle.com/files/LUFA/Doc/151115/html/_page__compiling_apps.html to setup environment for building.
-Download LUFA http://www.fourwalledcubicle.com/LUFA.php
-Remember to change LUFA_PATH to where you downloaded LUFA in MAKEFILE
+You will need to set up the following
+#### LUFA Library
+Clone https://github.com/abcminiuser/lufa, and set the `LUFA` folder's relative path at `LUFA_PATH` in Makefile.
+
+#### AVR Toolchain
+##### Windows and others
+Follow http://www.fourwalledcubicle.com/files/LUFA/Doc/151115/html/_page__compiling_apps.html to setup environment for building for your specific environment
+##### MacOSX
+Follow https://github.com/osx-cross/homebrew-avr to use homebrew for installing AVR Toolchain
+Then just run `make` to compile and obtain the updated `joystick.bin`
 
 
 ## Switch-Fightstick
