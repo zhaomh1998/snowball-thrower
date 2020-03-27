@@ -59,15 +59,15 @@ static const command step[] = {
 	//DO NOT EDIT ^^^^		 End of Setup Controller
 
 	// Script loops from this line
-	// Buy 30 times
-	{REPEATSTART, 30},
-	{A, 5},{NOTHING, 120}, // xxx, you can buy multiples, how many to buy?
+	// Buy 30 times -- each time get 5, 60 times gets full bag of 300
+	{REPEATSTART, 60},
+	{A, 5},{NOTHING, 80}, // xxx, you can buy multiples, how many to buy?
 	{A, 5},{NOTHING, 20},
-	{DOWN, 5},{NOTHING, 20}, // I want to buy 5
-	{A, 5},{NOTHING, 100},  // Thank you
+	{DOWN, 5},{NOTHING, 10}, // I want to buy 5
+	{A, 5},{NOTHING, 70},  // Thank you
 	// Buy completed
-	{A, 5},{NOTHING, 100},
-	{A, 5},{NOTHING, 20},
+	{A, 5},{NOTHING, 70},  // Anything else you want?
+	{A, 5},{NOTHING, 10},
 	{REPEATEND, 0},
 
 	// Return -- User supposed to interrupt now
