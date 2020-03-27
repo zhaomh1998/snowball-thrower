@@ -45,41 +45,35 @@ typedef struct {
 } command; 
 
 static const command step[] = {
+	// NOTE: As of Mar 26th, 2020, seems switch doesn't need this authentication process any more
+	// But you do have to press any button to activate the controller (first button press will be lost)
+
 	//DO NOT EDIT vvvv		Setup controller
-	{ NOTHING,  250 },
+	// { NOTHING,  250 },
 	{ TRIGGERS,   5 },
-	{ NOTHING,  150 },
-	{ TRIGGERS,   5 },
-	{ NOTHING,  150 },
-	{ A,          5 },
-	{ NOTHING,  250 },
+	// { NOTHING,  150 },
+	// { TRIGGERS,   5 },
+	// { NOTHING,  150 },
+	// { A,          5 },
+	// { NOTHING,  250 },
 	//DO NOT EDIT ^^^^		 End of Setup Controller
 
 	// Script loops from this line
-	// Open shop and buy first item
-	{A, 5},		{NOTHING, 50},
-	{A, 5},		{NOTHING, 50},
-	{A, 5},		{NOTHING, 50},
-	{A, 5},		{NOTHING, 50},		// Select first item
-	{LEFT, 5},	{NOTHING, 50},		// Max amount
-	{A, 5},		{NOTHING, 50},		// Purchase first item
-	{B, 5},		{NOTHING, 50},
-	{B, 5},		{NOTHING, 150}, 	// Returned
-	{PLUS, 5},	{NOTHING, 150}, 	// Open menu
-	{A, 5},		{NOTHING, 50},
-	{A, 5},		{NOTHING, 30},		// Select First character
-	
-	// Select and enter bag
-	{LEFT, 5},	{NOTHING, 20},
-	{A, 5},		{NOTHING, 15},
-
-	// Consume item 20 times
-	{REPEATSTART, 20},
-	{A, 5},{NOTHING, 15},{A, 5},{NOTHING, 15},{A, 5},{NOTHING, 10},{A, 5},{NOTHING, 10},{A, 5},{NOTHING, 80}, // Consume an item
+	// Buy 30 times
+	{REPEATSTART, 30},
+	{A, 5},{NOTHING, 120}, // xxx, you can buy multiples, how many to buy?
+	{A, 5},{NOTHING, 20},
+	{DOWN, 5},{NOTHING, 20}, // I want to buy 5
+	{A, 5},{NOTHING, 100},  // Thank you
+	// Buy completed
+	{A, 5},{NOTHING, 100},
+	{A, 5},{NOTHING, 20},
 	{REPEATEND, 0},
 
-	// Return
-	{PLUS, 5},	{NOTHING, 150}
+	// Return -- User supposed to interrupt now
+	{REPEATSTART, 100},
+	{B, 5},	{NOTHING, 20},
+	{REPEATEND, 0},
 	
 
 };
