@@ -1,7 +1,7 @@
-# Automated buying item and consume for trust grinding in Xenoblade Chronicles 2 on Arduino
+# Automated buying item for reselling on other islands in Animal Crossing New Horizons by Arduino
 
 ### How to use
-Upload the compiled joystick.bin into Arduino from it's DFU mode, then plug in your Arduino to Nintendo Switch Type-C port through a Type-C to USB converter or plug into USB port on Nintendo Switch dock. In game, walk close enough to a store so that pressing "A" opens the store. Arduino will act as a automated joystick that buys max amount of the first item in the store, and consume that pouch item 20 times on the first character, then repeat.
+Upload the compiled joystick.bin into Arduino from it's DFU mode, then plug in your Arduino to Nintendo Switch Type-C port through a Type-C to USB converter or plug into USB port on Nintendo Switch dock. In game, open a store and put cursor to an item, so that pressing "A" starts the buying process. Arduino will act as a automated joystick that buys 5*60 times the certain item in the store with the buy 5 option, and exit the store. The user should take care of the rest (going back to own island / travel to friend's island)
 
 ### Uploading code to Arduino
 #### Windows
