@@ -61,12 +61,15 @@ static const command step[] = {
 	// Script loops from this line
 	// Buy 30 times -- each time get 5, 60 times gets full bag of 300
 	{REPEATSTART, 60},
-	{A, 5},{NOTHING, 80}, // xxx, you can buy multiples, how many to buy?
+	{A, 5},{NOTHING, 12}, // xxx, you can buy multiples, how many to buy?
+	{B, 5},{NOTHING, 20}, // Speed up ^^
 	{A, 5},{NOTHING, 20},
 	{DOWN, 5},{NOTHING, 10}, // I want to buy 5
-	{A, 5},{NOTHING, 70},  // Thank you
+	{A, 5},{NOTHING, 15},  // Thank you
+	{B, 5},{NOTHING, 20}, // Speed up ^^
 	// Buy completed
-	{A, 5},{NOTHING, 70},  // Anything else you want?
+	{A, 5},{NOTHING, 12},  // Anything else you want?
+	{B, 5},{NOTHING, 20}, // Speed up ^^
 	{A, 5},{NOTHING, 10},
 	{REPEATEND, 0},
 
